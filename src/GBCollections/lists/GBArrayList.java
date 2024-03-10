@@ -38,28 +38,22 @@ public class GBArrayList<E> implements GBList<E> {
         values[size++] = value;
     }
 
-    @Override
-    public void add(int index, E value) {
-
-    }
 
     @Override
-    public E get(int index) {
+    public E getByIndex(int index) {
         return values[index];
     }
 
-
-
-    @Override
-    public void removeByValue(E value) {
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].equals(value)) {
-                removeByIndex(i);
-                return;
-            }
-        }
-        throw  new RuntimeException("Element is not found");
-    }
+    //    @Override
+//    public void removeByIndex(E value) {
+//        for (int i = 0; i < values.length; i++) {
+//            if (values[i].equals(value)) {
+//                removeByIndex(i);
+//                return;
+//            }
+//        }
+//        throw  new RuntimeException("Element is not found");
+//    }
 //    @Override
 //    @SuppressWarnings("unchecked")
 //    public void remove(int index) {
@@ -74,17 +68,24 @@ public class GBArrayList<E> implements GBList<E> {
 //        }
 //    }
     @Override
-    public void removeByIndex(int index) {
+    public E removeByIndex(int index) {
         capacity -= 1;
+        E value = values[index];
         E[] res = (E[]) new Object[capacity];
         System.arraycopy(values, 0, res, 0, index);
         int amountElementsAfterIndex = values.length - index - 1;
         System.arraycopy(values, index + 1, res, index, amountElementsAfterIndex);
-        size --;
+        size--;
         values = res;
+        return value;
     }
 
-//    @Override
+    @Override
+    public boolean removeByValue(E value) {
+    return false;
+    }
+
+    //    @Override
 //    public void remove(int index) {
 //
 //        E[] res = values;
@@ -103,10 +104,11 @@ public class GBArrayList<E> implements GBList<E> {
     public Iterator<E> iterator() {
         return new ArrayIterator<>(values);
     }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("[");
-        int i =0;
+        int i = 0;
         while (values[i] != null) {
             builder.append(values[i]).append(", ");
             i++;
